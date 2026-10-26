@@ -147,14 +147,26 @@ a { color: #7de5d1; }
 
   const map = new maplibregl.Map({
     container: "map",
-    style: "https://demotiles.maplibre.org/style.json",
+    style: "https://tiles.openfreemap.org/styles/liberty",
     center: current.center,
     zoom: current.zoom,
     pitch: 60,
     bearing: -18,
     maxPitch: 80,
-    attributionControl: true
+    attributionControl: true;
+// Enable the 3D Earth globe
+map.setProjection({ type: 'globe' });
+
+// Add atmospheric depth around the Earth
+map.on('style.load', () => {
+  map.setFog({
+    color: 'rgb(186, 210, 235)',
+    'high-color': 'rgb(36, 92, 223)',
+    'space-color': 'rgb(8, 12, 28)',
+    'star-intensity': 0.2
   });
+  });
+
   map.addControl(new maplibregl.NavigationControl(), "bottom-right");
 
   function feed(message) {
